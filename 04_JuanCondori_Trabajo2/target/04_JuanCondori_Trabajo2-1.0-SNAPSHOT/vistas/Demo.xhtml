@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <title>DEMO OMNIFACES</title>
+        </h:head>
+        <p:growl id="mensajes" severity="info,fatal" showSummary="true" showDetail="true"/>
+
+        <h:body>
+            <p:growl id="mensaje" showDetail="true"/>
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+
+            <div>
+                <center>
+                    <o:form>
+                        <h1 style="color:black; font-weight:bold; font-size:40px">DEMO validateEqual</h1>
+                    </o:form>
+                </center>
+            </div>
+            <h:form>
+                <center>
+                    <h3 style="color:black;">Complete el mismo valor para todos los campos</h3>
+                    <o:validateEqual id="equal" components="campo1 campo2 campo3" />
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="campo1" value="Campo1:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo1"/>
+                        <h:message for="campo1" />
+                        <p:outputLabel for="campo2" value="Campo2:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo2"/>
+                        <h:message for="campo2" />
+                        <p:outputLabel for="campo3" value="Campo3:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo3"/>
+                        <h:message for="campo3" />
+                        <h:panelGroup />
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="VERIFICAR" style="font-weight:bold; font-size:16px">
+                                <f:ajax execute="@form" render="@form" />
+                            </p:commandButton>
+                            <p:commandButton value="REGISTRAR" actionListener="#{demoC.registrar()}" update="mensajes" style="font-weight:bold; font-size:16px">
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <h:message for="equal" />
+                            <h:outputText value="OK! SON IGUALES" rendered="#{facesContext.postback and not facesContext.validationFailed}" style="color:blue; font-weight:bold; font-size:18px"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </center>
+            </h:form>
+
+            <p:separator/>
+            <p:separator/>
+
+            <div>
+                <center>
+                    <o:form>
+                        <h1 style="color:black; font-weight:bold; font-size:40px">DEMO validateUnique</h1>
+                    </o:form>
+                </center>
+            </div>
+            <o:form>
+                <center>
+                    <h3 style="color:black;">Cada campo debe ser unico y diferente</h3>
+                    <o:validateUnique id="unique" components="campo1 campo2 campo3" />
+                    <h:panelGrid columns="3">
+                        <o:outputLabel for="campo1" value="Campo1:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo1" />
+                        <h:message for="campo1" />
+                        <o:outputLabel for="campo2" value="Campo2:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo2" />
+                        <h:message for="campo2" />
+                        <o:outputLabel for="campo3" value="Campo3:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo3" />
+                        <h:message for="campo3" />
+                        <h:panelGroup />
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="VERIFICAR" style="font-weight:bold; font-size:16px">
+                                <f:ajax execute="@form" render="@form" />
+                            </p:commandButton>
+                            <p:commandButton value="REGISTRAR" actionListener="#{demoC.registrar()}" update="mensajes" style="font-weight:bold; font-size:16px">
+                            </p:commandButton>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <o:messages for="unique" />
+                            <o:outputLabel value="OK!, SON UNICOS Y DIFERENTES" rendered="#{facesContext.postback and not facesContext.validationFailed}" style="color:blue; font-weight:bold; font-size:18px"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </center>
+            </o:form>
+
+            <p:separator/>
+            <p:separator/>
+
+            <div>
+                <center>
+                    <o:form>
+                        <h1 style="color:black; font-weight:bold; font-size:40px">DEMO validateMultiple</h1>
+                    </o:form>
+                </center>
+            </div>
+            <o:form>
+                <center>
+                    <h3 style="color:black;">Debe ingresar UNO, DOS y TRES respectivamente</h3>
+                    <o:validateMultiple id="validateMultiple" components="campo1 campo2 campo3" validator="#{validateMultipleV}"
+                                        message="Debe ingresar UNO, DOS y TRES respectivamente" />
+                    <h:panelGrid columns="3">
+                        <o:outputLabel for="campo1" value="Campo1:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo1" />
+                        <h:message for="campo1" />
+                        <o:outputLabel for="campo2" value="Campo2:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo2" />
+                        <h:message for="campo2" />
+                        <o:outputLabel for="campo3" value="Campo3:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo3" />
+                        <h:message for="campo3" />
+                        <h:panelGroup />
+                        <p:commandButton value="VERIFICAR" style="font-weight:bold; font-size:16px">
+                            <f:ajax execute="@form" render="@form" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <h:message for="validateMultiple" />
+                            <h:outputText value="OK! SIGUIÓ LOS PASOS" rendered="#{facesContext.postback and not facesContext.validationFailed}" style="color:blue; font-weight:bold; font-size:18px"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </center>
+            </o:form>
+
+            <p:separator/>
+            <p:separator/>
+
+            <div>
+                <center>
+                    <o:form>
+                        <h1 style="color:black; font-weight:bold; font-size:40px">DEMO validateOrder</h1>
+                    </o:form>
+                </center>
+            </div>
+            <o:form>
+                <center>
+                    <h3 style="color:black;">Complete los valores de todos esos campos en orden</h3>
+                    <o:validateOrder id="order" components="campo1 campo2 campo3" />
+                    <h:panelGrid columns="3">
+                        <o:outputLabel for="campo1" value="Campo1:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo1"/>
+                        <h:message for="campo1"/>
+                        <o:outputLabel for="campo2" value="Campo2:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo2"/>
+                        <h:message for="campo2"/>
+                        <o:outputLabel for="campo3" value="Campo3:" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:inputText id="campo3"/>
+                        <h:message for="campo3"/>
+                        <h:panelGroup />
+                        <p:commandButton value="VERIFICAR" style="font-weight:bold; font-size:16px">
+                            <f:ajax execute="@form" render="@form" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <h:message for="order" />
+                            <h:outputText value="OK! COMPLETADO EN ORDEN" rendered="#{facesContext.postback and not facesContext.validationFailed}" style="color:blue; font-weight:bold; font-size:18px"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </center>
+            </o:form>
+        </h:body>
+    </ui:define>
+
+</ui:composition>
