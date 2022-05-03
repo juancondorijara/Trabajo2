@@ -1,5 +1,5 @@
 # Trabajo2
-Trabajo 2 de Taller de Programación
+Trabajo 2 de Taller de Programación, biblioteca de utilidad OmniFaces.
 
 ## Tecnologías y herramientas utilizadas
 - Java: JDK 8
